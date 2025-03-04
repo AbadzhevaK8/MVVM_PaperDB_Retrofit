@@ -1,10 +1,11 @@
-package com.example.mvvm_paperdb_retrofit
+package com.example.mvvm_paperdb_retrofit.view.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.mvvm_paperdb_retrofit.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
