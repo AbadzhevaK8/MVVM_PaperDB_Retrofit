@@ -2,4 +2,13 @@
     <string name="app_name">MVVM_PaperDB_Retrofit</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_completed_tasks">Show Completed Tasks</string>
+    <string name="test_description">test description</string>
+    <string name="test">test</string>
+    <string name="delete_button">Delete button</string>
+    <string name="test_data">test data</string>
+    <string name="task_name">Task name</string>
+    <string name="task_description">Task description</string>
+    <string name="set_dead_line">Set Dead line</string>
+    <string name="save_button">Save button</string>
 </resources>
