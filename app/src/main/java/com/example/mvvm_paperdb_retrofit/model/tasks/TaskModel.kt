@@ -1,4 +1,4 @@
-package com.example.mvvm_paperdb_retrofit.model
+package com.example.mvvm_paperdb_retrofit.model.tasks
 
 import kotlinx.serialization.Serializable
 
