@@ -32,6 +32,9 @@ interface TaskServerInterface {
     @PUT("/task/{id}")
     fun completeTask(@Path("id") id:String, @Field("isCompleted") isCompleted:Boolean) : Call<TaskModel>
 
+    @POST("/tasks/sync")
+    fun syncTasks(@Body tasks: List<TaskModel>): Call<List<TaskModel>>
+
     @HEAD("/")
     fun checkInternetConnection() : Call<Void>
 
