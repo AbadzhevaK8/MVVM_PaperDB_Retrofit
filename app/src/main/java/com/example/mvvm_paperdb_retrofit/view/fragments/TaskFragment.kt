@@ -4,60 +4,46 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_paperdb_retrofit.R
-import com.example.mvvm_paperdb_retrofit.placeholder.PlaceholderContent
+import com.example.mvvm_paperdb_retrofit.TaskApplication
+import com.example.mvvm_paperdb_retrofit.databinding.FragmentTaskListBinding
 import com.example.mvvm_paperdb_retrofit.view.adapters.TaskAdapter
+import com.example.mvvm_paperdb_retrofit.viewModel.TaskViewModel
 
-/**
- * A fragment representing a list of Items.
- */
 class TaskFragment : Fragment() {
-
-    private var columnCount = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
+    private lateinit var binding: FragmentTaskListBinding
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_task_list, container, false)
+        binding = FragmentTaskListBinding.inflate(layoutInflater, container, false)
+        taskViewModel = (requireActivity().application as TaskApplication).taskViewModel
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
+        taskViewModel.tasks.observe(viewLifecycleOwner){ listTasks ->
+            if (!listTasks.isNullOrEmpty()){
+                with(binding.list) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = TaskAdapter(listTasks.filter { it.isCompleted == !taskViewModel.showActive }, requireActivity())
                 }
-                adapter = TaskAdapter(PlaceholderContent.ITEMS)
+                binding.btnShowCompletedTasks.text = if (taskViewModel.showActive) "Show Completed Tasks" else "Show Active Tasks"
+                binding.btnShowCompletedTasks.setOnClickListener {
+                    taskViewModel.showActive = !taskViewModel.showActive
+                }
             }
         }
-        return view
-    }
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            TaskFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+        taskViewModel.notifyMsg.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+        }
+        binding.addTask.setOnClickListener {
+            taskViewModel.setCurrentTask(null)
+            Navigation.findNavController(binding.root).navigate(R.id.action_taskFragment_to_addUpdateTaskFragment)
+        }
+        return binding.root
     }
 }

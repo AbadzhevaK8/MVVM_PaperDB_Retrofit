@@ -9,7 +9,11 @@
         android:id="@+id/taskFragment"
         android:name="com.example.mvvm_paperdb_retrofit.view.fragments.TaskFragment"
         android:label="fragment_task_list"
-        tools:layout="@layout/fragment_task_list" />
+        tools:layout="@layout/fragment_task_list" >
+        <action
+            android:id="@+id/action_taskFragment_to_addUpdateTaskFragment"
+            app:destination="@id/addUpdateTaskFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addUpdateTaskFragment"
         android:name="com.example.mvvm_paperdb_retrofit.view.fragments.AddUpdateTaskFragment"
