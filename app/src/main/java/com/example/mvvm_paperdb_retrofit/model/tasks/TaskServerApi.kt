@@ -117,23 +117,7 @@ class TaskServerApi : TaskInterface {
         }
     }
 
-//    override fun syncData(listTasks: List<TaskModel>, callBack: MyCustomCallBack<TaskModel>) {
-//        TODO("Not yet implemented")
-//    }
-
     override fun syncData(listTasks: List<TaskModel>, callBack: MyCustomCallBack<TaskModel>) {
-        try {
-            service.syncTasks(listTasks).enqueue(object : Callback<List<TaskModel>> {
-                override fun onResponse(p0: Call<List<TaskModel>>, p1: Response<List<TaskModel>>) {
-                    callBack.onSuccess(p1.body() ?: emptyList())
-                }
-
-                override fun onFailure(p0: Call<List<TaskModel>>, p1: Throwable) {
-                    callBack.onFailure(p1.toString())
-                }
-            })
-        } catch (ex: Exception) {
-            callBack.onFailure(ex.toString())
-        }
+        TODO("Not yet implemented")
     }
 }
