@@ -13,27 +13,24 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface TaskServerInterface {
-    @GET("/task/{id}")
+    @GET("/Task/{id}")
     fun getTaskById(@Path("id") id: String): Call<TaskModel>
 
-    @GET("/task")
+    @GET("/Task")
     fun getTasks():Call<List<TaskModel>>
 
-    @POST("/task")
+    @POST("/Task")
     fun addTask(@Body task: TaskModel): Call<TaskModel>
 
-    @PUT("/task/{id}")
+    @PUT("/Task/{id}")
     fun updateTask(@Path("id") id:String, @Body task: TaskModel): Call<TaskModel>
 
-    @DELETE("/task/{id}")
+    @DELETE("/Task/{id}")
     fun deleteTask(@Path("id") id: String): Call<TaskModel>
 
     @FormUrlEncoded
-    @PUT("/task/{id}")
+    @PUT("/Task/{id}")
     fun completeTask(@Path("id") id:String, @Field("isCompleted") isCompleted:Boolean) : Call<TaskModel>
-
-    @POST("/tasks/sync")
-    fun syncTasks(@Body tasks: List<TaskModel>): Call<List<TaskModel>>
 
     @HEAD("/")
     fun checkInternetConnection() : Call<Void>
