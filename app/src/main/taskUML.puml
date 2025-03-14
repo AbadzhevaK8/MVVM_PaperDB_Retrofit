@@ -1,0 +1,59 @@
+@startuml
+package "model" {
+    interface TaskInterface {
+        + getTasks(callBack: MyCustomCallBack<TaskModel>)
+        + addTask(task: TaskModel, callBack: MyCustomCallBack<TaskModel>)
+    }
+
+    class TaskModel {
+        + id: String
+        + name: String
+        + description: String
+    }
+
+    class TaskLocalApi {
+        + getTasks(callBack: MyCustomCallBack<TaskModel>)
+        + addTask(task: TaskModel, callBack: MyCustomCallBack<TaskModel>)
+    }
+
+    class TaskServerApi {
+        + getTasks(callBack: MyCustomCallBack<TaskModel>)
+        + addTask(task: TaskModel, callBack: MyCustomCallBack<TaskModel>)
+    }
+
+    interface MyCustomCallBack<T> {
+        + onSuccess(model: T)
+        + onFailure(exception: String)
+    }
+}
+
+package "repository" {
+    class TaskRepository {
+        - taskInterface: TaskInterface
+        + getTasks(callBack: MyCustomCallBack<TaskModel>)
+        + addTask(task: TaskModel, callBack: MyCustomCallBack<TaskModel>)
+    }
+}
+
+package "viewModel" {
+    class TaskViewModel {
+        - repository: TaskRepository
+        + tasks: LiveData<List<TaskModel>>
+        + addTask(task: TaskModel)
+    }
+}
+
+package "view" {
+    class MainActivity {
+        + onCreate(savedInstanceState: Bundle)
+    }
+}
+
+TaskViewModel --> TaskRepository : uses
+TaskRepository --> TaskInterface : uses
+TaskInterface <|.. TaskLocalApi
+TaskInterface <|.. TaskServerApi
+TaskViewModel --> TaskModel : holds
+MainActivity --> TaskViewModel : uses
+@enduml
+
